@@ -4,43 +4,52 @@ import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recha
 import Title from './Title';
 
 // Generate Sales Data
-function createData(time, amount) {
-    return { time, amount };
+function createData(x, y1, y2) {
+    return ({ x, y1, y2 });
 }
 
-const data = [
-    createData('00:00', 0),
-    createData('03:00', 300),
-    createData('06:00', 600),
-    createData('09:00', 800),
-    createData('12:00', 1500),
-    createData('15:00', 2000),
-    createData('18:00', 2400),
-    createData('21:00', 2400),
-    createData('24:00', undefined),
-];
-
-export default function Chart() {
+export default function Chart({ x, y1, y2 }) {
     const theme = useTheme();
+    const [data, setData] = React.useState([]);
+
+    React.useEffect(() => {
+        const data = [];
+        for (let i = 0; i < x.length; i++)
+            data.push(createData(x[i], y1[i], y2[i]));
+        setData(data);
+    }, [x, y1, y2]);
 
     return (
         <React.Fragment>
-            <Title>Today</Title>
+            <Title>Actual vs Prediction</Title>
             <ResponsiveContainer>
                 <LineChart
                     data={data}
                     margin={{
                         top: 16,
                         right: 16,
-                        bottom: 0,
+                        bottom: 30,
                         left: 24,
                     }}
                 >
                     <XAxis
-                        dataKey="time"
+                        dataKey="x"
+                        position="left"
                         stroke={theme.palette.text.secondary}
                         style={theme.typography.body2}
-                    />
+                    >
+                        <Label
+                            dy={25}
+                            position="center"
+                            style={{
+                                textAnchor: 'middle',
+                                fill: theme.palette.text.primary,
+                                ...theme.typography.body1,
+                            }}
+                        >
+                            Date
+                        </Label>
+                    </XAxis>
                     <YAxis
                         stroke={theme.palette.text.secondary}
                         style={theme.typography.body2}
@@ -54,14 +63,23 @@ export default function Chart() {
                                 ...theme.typography.body1,
                             }}
                         >
-                            Sales ($)
+                            Sales
                         </Label>
                     </YAxis>
                     <Line
-                        isAnimationActive={false}
+                        isAnimationActive={true}
                         type="monotone"
-                        dataKey="amount"
+                        dataKey="y1"
+                        strokeWidth={2}
                         stroke={theme.palette.primary.main}
+                        dot={false}
+                    />
+                    <Line
+                        isAnimationActive={true}
+                        type="monotone"
+                        dataKey="y2"
+                        strokeWidth={2}
+                        stroke={theme.palette.secondary.main}
                         dot={false}
                     />
                 </LineChart>
