@@ -126,7 +126,7 @@ function DashboardContent({ product, model, setProduct, setModel }) {
                             color="inherit"
                             whiteSpace="nowrap"
                         >
-                            Data Analysis
+                            Convolve
                         </Typography>
                         <Autocomplete
                             fullWidth
@@ -206,7 +206,7 @@ function DashboardContent({ product, model, setProduct, setModel }) {
                                         height: 325,
                                     }}
                                 >
-                                    <Chart x={products[product]["Date"]} y1={products[product]["sales"]} y2={products[product][model]} />
+                                    <Chart x={products[product]["Date"]} y1={products[product]["sales"]} y2={products[product][model]} model={model}/>
                                 </Paper>
                             </Grid>
                         </Grid>

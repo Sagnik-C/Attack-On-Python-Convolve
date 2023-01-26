@@ -122,7 +122,7 @@ function AppContent({ product, model, setProduct, setModel }) {
                             color="inherit"
                             whiteSpace="nowrap"
                         >
-                            Data Analysis
+                            Convolve
                         </Typography>
                         <Autocomplete
                             fullWidth

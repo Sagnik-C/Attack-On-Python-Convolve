@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useTheme } from '@mui/material/styles';
-import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer, Legend } from 'recharts';
 import Title from './Title';
 
 // Generate Sales Data
@@ -8,7 +8,7 @@ function createData(x, y1, y2) {
     return ({ x, y1, y2 });
 }
 
-export default function Chart({ x, y1, y2 }) {
+export default function Chart({ x, y1, y2, model }) {
     const theme = useTheme();
     const [data, setData] = React.useState([]);
 
@@ -28,10 +28,13 @@ export default function Chart({ x, y1, y2 }) {
                     margin={{
                         top: 16,
                         right: 16,
-                        bottom: 30,
+                        bottom: 0,
                         left: 24,
                     }}
                 >
+                    <Legend wrapperStyle={{
+                        paddingTop: "25px"
+                    }} verticalAlign="bottom" align="center" />
                     <XAxis
                         dataKey="x"
                         position="left"
@@ -39,10 +42,9 @@ export default function Chart({ x, y1, y2 }) {
                         style={theme.typography.body2}
                     >
                         <Label
-                            dy={25}
-                            position="center"
+                            position="bottom"
                             style={{
-                                textAnchor: 'middle',
+                                textAnchor: 'right',
                                 fill: theme.palette.text.primary,
                                 ...theme.typography.body1,
                             }}
@@ -69,6 +71,7 @@ export default function Chart({ x, y1, y2 }) {
                     <Line
                         isAnimationActive={true}
                         type="monotone"
+                        name="sales"
                         dataKey="y1"
                         strokeWidth={2}
                         stroke={theme.palette.primary.main}
@@ -77,6 +80,7 @@ export default function Chart({ x, y1, y2 }) {
                     <Line
                         isAnimationActive={true}
                         type="monotone"
+                        name={model}
                         dataKey="y2"
                         strokeWidth={2}
                         stroke={theme.palette.secondary.main}
